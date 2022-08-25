@@ -70,5 +70,8 @@ def submitall(link, name):
         exit(0)
 
     Path("/videos/"+name).mkdir(parents=True, exist_ok=True)
-    vd.urlretrieve(downloadUrl.split("?")[0], str(pathlib.Path().resolve())+'\\videos\\'+name+'\\' + actualLink.split('/')[-2]+'.mp4')
+    if not os.path.exists(str(pathlib.Path().resolve())+'\\videos\\'+name+'\\' + actualLink.split('/')[-2]+'.mp4'):
+        vd.urlretrieve(downloadUrl.split("?")[0], str(pathlib.Path().resolve())+'\\videos\\'+name+'\\' + actualLink.split('/')[-2]+'.mp4')
+    else:
+        print("File already downloaded!")
     session.close()

@@ -2,3 +2,6 @@
 /csvs/*
 /src/_pycache/
 /src/_pycache/*
+/env
+env
+.env

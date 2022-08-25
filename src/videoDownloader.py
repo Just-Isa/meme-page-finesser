@@ -63,7 +63,12 @@ def submitall(link, name):
     elif form_details["method"] == "get":
         res = session.get(url, params=data)
 
-    downloadUrl = BeautifulSoup(res.html.html, 'html.parser').find_all("a", text="Download")[0].attrs.get("href")
+    try:
+        downloadUrl = BeautifulSoup(res.html.html, 'html.parser').find_all("a", text="Download")[0].attrs.get("href")
+    except IndexError:
+        print("weird link")
+        exit(0)
+
     Path("/videos/"+name).mkdir(parents=True, exist_ok=True)
     vd.urlretrieve(downloadUrl.split("?")[0], str(pathlib.Path().resolve())+'\\videos\\'+name+'\\' + actualLink.split('/')[-2]+'.mp4')
     session.close()

@@ -1,4 +1,6 @@
-import urllib.request as vd, requests
+import pathlib, os
+import urllib.request as vd
+from pathlib import Path 
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
@@ -33,7 +35,7 @@ def get_form_details(form):
     details["inputs"] = inputs
     return details
 
-def submitall(link):
+def submitall(link, name):
     session = HTMLSession()
     actualLink = ""
     for i in range(6):
@@ -54,11 +56,14 @@ def submitall(link):
     # submi
     url = urljoin('https://twdown.net/', form_details["action"])
 
+    if not os.path.exists(str(pathlib.Path().resolve())+'\\videos\\'+name):
+        os.makedirs(str(pathlib.Path().resolve())+'\\videos\\'+name, exist_ok=True)
     if form_details["method"] == "post":
         res = session.post(url, data=data)
     elif form_details["method"] == "get":
         res = session.get(url, params=data)
 
     downloadUrl = BeautifulSoup(res.html.html, 'html.parser').find_all("a", text="Download")[0].attrs.get("href")
-    vd.urlretrieve(downloadUrl.split("?")[0], '../videos/'+actualLink.split('/')[-2]+'.mp4')
+    Path("/videos/"+name).mkdir(parents=True, exist_ok=True)
+    vd.urlretrieve(downloadUrl.split("?")[0], str(pathlib.Path().resolve())+'\\videos\\'+name+'\\' + actualLink.split('/')[-2]+'.mp4')
     session.close()

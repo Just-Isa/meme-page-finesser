@@ -58,7 +58,7 @@ try:
     elif sys.argv[1] == '-s':
         timeline = api.user_timeline(screen_name=sys.argv[2],count=20,include_rts=False)
 
-    test = open('../csvs/'+user.name+'.csv', 'w', encoding='utf-8')
+    test = open('csvs/'+user.name+'.csv', 'w', encoding='utf-8')
     if sys.argv[3] != None and sys.argv[3] == '-f':
         for i in tqdm(range(len(timeline))):
             if 'media' not in timeline[i].entities.keys():
@@ -85,8 +85,8 @@ try:
 
     if len(sys.argv) == 5:
         if (sys.argv[4] == '-d'):
-            for line in open('../csvs/'+user.name+'.csv', 'r'):
-                videoDownloader.submitall(line)
+            for line in open('csvs/'+user.name+'.csv', 'r'):
+                videoDownloader.submitall(line, user.name)
 
 finally:
     print("Done")

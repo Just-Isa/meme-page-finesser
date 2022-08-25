@@ -1,2 +1,4 @@
 /videos/*
 /csvs/*
+/src/_pycache/
+/src/_pycache/*
